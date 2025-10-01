@@ -89,7 +89,7 @@ int main(int argc,char *argv[]) {
 	if(fpath.find("random_GBK.exe")==string::npos && fpath.find("rdgbk.exe")==string::npos) {
 		cout<<"-Copyright: 1724834368@qq.com\n\
 您似乎擅自修改了本程序的文件名，这可能导致您为本程序配置的环境变量不可用。\n\
-建议您将本程序文件名恢复为 random.exe ！\n";
+建议您将本程序文件名恢复为 random_GBK.exe ！\n";
 		system("pause");
 	}
 	ofstream bout("set_rdgbk.exe_to_random_GBK.exe.bat",ios::out);
