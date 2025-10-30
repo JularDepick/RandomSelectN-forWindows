@@ -144,8 +144,8 @@ int main(int argc,char *argv[]) {
 	vector<string> arr={};
 	string s;
 	while(getline(fin,s)) {
-		if(s[0]=='#') continue;
 		if(is_voidstr(s)) continue; 
+		if(s[0]=='#') continue;
 		arr.push_back(s);
 		s="";
 	}
@@ -209,28 +209,21 @@ int main(int argc,char *argv[]) {
         uint64_t time_seed = chrono::duration_cast<chrono::nanoseconds>(now).count();
         uint64_t final_seed = static_cast<uint64_t>(i) + time_seed + fixed_hash + i;
         mt19937_64 rng(final_seed);
-        uniform_int_distribution<uint64_t> dist(1, l);
+        uniform_int_distribution<uint64_t> dist(0, l-1);
         int rnn = dist(rng); //强制转换uint64_t了
 		if(rarr[rnn]==0) {
 			rarr[rnn]=1;
 			i++;
 		} else {
 			//循环扫描按位移选择 
-			int cnt=0,pos=rnn;
-			while(cnt<rnn) {
-				pos++;
-				if(pos==l) {
-					//首尾相连归位 
-					pos=0;
-				}
+			int pos=rnn;
+			while(1) {
+				pos=(pos+1)%l;
 				if(rarr[pos]==0) {
-					cnt++;
-					continue; 
+					rarr[pos]=1;
+					i++;
+					break;
 				}
-			}
-			if(rarr[pos]==0) {
-				rarr[pos]=1;
-				i++;
 			}
 		}
     }
@@ -247,7 +240,9 @@ int main(int argc,char *argv[]) {
 		} else if(!rarr[i] && suppl) {
 			cout<<arr[i]<<endl;
 			cntn++;
-		}
+		} else {
+			//cout<<"不选中的项"<<arr[i]<<endl;
+		} 
 	}
 	Sleep(1000);
 	if(cntn!=(suppl? (l-n):n)) {
